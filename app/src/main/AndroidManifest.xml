@@ -12,7 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MarchKotlin">
         <activity
+            android:name=".PaymentActvity"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentDetails"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecycleViewActvity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
