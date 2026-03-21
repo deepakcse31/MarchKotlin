@@ -2,12 +2,16 @@ package com.example.marchkotlin
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RecycleViewActvity : AppCompatActivity() {
     lateinit var rvlist: RecyclerView
@@ -34,11 +38,29 @@ class RecycleViewActvity : AppCompatActivity() {
         rvlist.setHasFixedSize(true)
         rvlist.layoutManager = LinearLayoutManager(this)
         rvlist.adapter = adapter
-
+        getMovie()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    fun getMovie(){
+        val call : Call<MovieResponse> = ApiClient.getClient()!!.create(ApiService::class.java).getMovies("SpiderMan")
+        call.enqueue(object : Callback<MovieResponse> {
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+
+                if (response.isSuccessful) {
+                    val movieResponse = response.body()
+                    Log.e("TAG", "onResponse: " + movieResponse!!.description)
+
+
+                }
+            }
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+            }
+        })
+
     }
 }
