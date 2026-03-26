@@ -2,6 +2,7 @@ package com.example.marchkotlin
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
@@ -39,6 +40,14 @@ class StudentActivity : AppCompatActivity() {
             val semester = edtsemester.text.toString()
             GlobalScope.launch {
                 database.studentDao().insert(StudentData(0,name,enroll,branch,semester))
+                edtName.setText("")
+                edtenroll.setText("")
+                edtbranch.setText("")
+                edtsemester.setText("")
+
+                database.studentDao().getAllStudentData().forEach {
+                    Log.e("DB_DATA","DB_DATA"+it)
+                }
             }
         }
 
